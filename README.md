@@ -45,9 +45,6 @@ ansible-playbook -i inventory.ini site.yml
 If you want a step-by-step, production-ready implementation, including:
 
 - full walkthrough
-- operational and security conventions
-- onboarding and off-boarding standards
-- Git audit conventions
 - safety checklists
 - real-world usage guidance
 
