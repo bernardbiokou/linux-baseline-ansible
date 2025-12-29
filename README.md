@@ -41,3 +41,19 @@ ansible-playbook -i inventory.ini site.yml
 │   │           └── sshd_config.j2
 │   └── site.yml
 └── README.md
+
+If you want a step-by-step, production-ready implementation, including:
+
+- full walkthrough
+- operational and security conventions
+- onboarding and off-boarding standards
+- Git audit conventions
+- safety checklists
+- real-world usage guidance
+
+A complete Pack is available here:
+
+https://aloba.gumroad.com/l/linux-baseline-ansible-kit
+
+## Final note
+This repository is meant to be a reference implementation. Adapt it to your organization’s security policies and operational requirements.
