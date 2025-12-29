@@ -1,0 +1,23 @@
+---
+# roles/linux_baseline/tasks/logs.yml
+- name: Ensure journald drop-in directory exists
+  file:
+    path: /etc/systemd/journald.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: yes
+
+- name: Configure journald log limits
+  copy:
+    dest: /etc/systemd/journald.conf.d/10-baseline.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      SystemMaxUse=100M
+      RuntimeMaxUse=50M
+      SystemKeepFree=500M
+  notify: Restart systemd-journald
+  become: yes

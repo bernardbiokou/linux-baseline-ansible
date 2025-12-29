@@ -1,0 +1,107 @@
+---
+# roles/linux_baseline/tasks/post_check.yml
+
+- name: "Check first baseline user exists"
+  when: baseline_users | length > 0
+  command: id {{ baseline_users[0].name }}
+  register: admin_user_check
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report baseline admin user status"
+  when: baseline_users | length > 0
+  debug:
+    msg: >-
+      {{ "OK Admin user " ~ baseline_users[0].name ~ " exists"
+         if admin_user_check.rc == 0
+         else "FAIL Admin user " ~ baseline_users[0].name ~ " missing" }}
+
+- name: "Check SSH root login disabled"
+  command: grep -q "PermitRootLogin no" /etc/ssh/sshd_config
+  register: ssh_root_check
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report SSH root login status"
+  debug:
+    msg: >-
+      {{ "OK SSH: root login disabled"
+         if ssh_root_check.rc == 0
+         else "FAIL SSH: root login enabled" }}
+
+- name: "Check SSH password auth disabled"
+  command: grep -q "PasswordAuthentication no" /etc/ssh/sshd_config
+  register: ssh_pwd_check
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report SSH password auth status"
+  debug:
+    msg: >-
+      {{ "OK SSH: password auth disabled"
+         if ssh_pwd_check.rc == 0
+         else "FAIL SSH: password auth enabled" }}
+
+- name: "Check UFW active"
+  command: ufw status
+  register: ufw_status
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report UFW status"
+  debug:
+    msg: >-
+      {{ "OK UFW active"
+         if "Status: active" in ufw_status.stdout
+         else "FAIL UFW inactive" }}
+
+- name: "Check unattended-upgrades package installed"
+  command: dpkg -l unattended-upgrades
+  register: unattended_pkg
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report unattended-upgrades status"
+  debug:
+    msg: >-
+      {{ "OK Auto security updates installed"
+         if unattended_pkg.rc == 0
+         else "FAIL unattended-upgrades missing" }}
+
+- name: "Check SSH service active"
+  command: systemctl is-active ssh
+  register: ssh_service
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report SSH service status"
+  debug:
+    msg: >-
+      {{ "OK SSH service active"
+         if ssh_service.stdout.strip() == "active"
+         else "FAIL SSH service stopped" }}
+
+- name: "Check NTP / time sync status"
+  command: timedatectl
+  register: timedatectl_out
+  changed_when: false
+  failed_when: false
+  become: yes
+
+- name: "Report NTP sync status"
+  debug:
+    msg: >-
+      {{ "OK NTP sync active"
+         if ("System clock synchronized" in timedatectl_out.stdout)
+            or ("NTP enabled" in timedatectl_out.stdout)
+         else "FAIL NTP sync inactive" }}
+
+- name: "Final baseline message"
+  debug:
+    msg: "SUCCESS Linux Baseline completed!"

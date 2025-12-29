@@ -1,0 +1,17 @@
+---
+- name: restart ssh
+  systemd:
+    name: ssh
+    state: restarted
+
+- name: restart rsyslog
+  systemd:
+    name: rsyslog
+    state: restarted
+
+- name: Restart systemd-journald
+  systemd:
+    name: systemd-journald
+    state: restarted
+  become: yes
+

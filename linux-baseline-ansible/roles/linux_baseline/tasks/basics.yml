@@ -1,0 +1,23 @@
+# roles/linux_baseline/tasks/basics.yml
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install baseline packages
+  apt:
+    name:
+      - vim
+      - curl
+      - wget
+      - git
+      - ufw
+      - htop 
+      - net-tools
+      - fail2ban
+      - tree
+      - glances
+    state: present
+  become: yes

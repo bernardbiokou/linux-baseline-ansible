@@ -1,0 +1,30 @@
+---
+# Main tasks file - Linux Baseline
+- name: Include user tasks
+  include_tasks: users.yml
+
+- name: Include SSH hardening tasks
+  include_tasks: ssh.yml
+
+- name: Include basic packages tasks
+  include_tasks: basics.yml
+
+- name: Include firewall configuration tasks
+  include_tasks: ufw.yml
+
+- name: Include unattended upgrades tasks
+  include_tasks: unattended_upgrades.yml
+
+- name: Include logging configuration tasks
+  include_tasks: logs.yml
+
+- name: Include time synchronization tasks
+  include_tasks: timesync.yml
+
+- name: Include post baseline checks tasks
+  include_tasks: post_check.yml
+
+- name: Final reboot if needed
+  reboot:
+    msg: "Reboot initiated by Linux Baseline"
+  when: baseline_reboot_required | default(false)

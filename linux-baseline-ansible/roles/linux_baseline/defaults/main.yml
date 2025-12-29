@@ -1,0 +1,18 @@
+---
+baseline_users:
+  - name: admin
+    groups: ["sudo", "adm"]
+    shell: "/bin/bash"
+    ssh_keys: 
+      - "ssh-ed25519 AAAA... admin@macbook"
+      - "ssh-ed25519 BBBB... user1@laptop"
+
+ufw_rules:
+  - { port: 22, proto: tcp, action: allow }
+
+ssh_port: 22
+ntp_enabled: true
+baseline_reboot_required: false
+
+linux_baseline_timezone: "UTC"
+

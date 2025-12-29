@@ -1,0 +1,26 @@
+---
+# roles/linux_baseline/tasks/timesync.yml
+- name: Set timezone
+  command: timedatectl set-timezone {{ linux_baseline_timezone }}
+  become: yes
+
+- name: Ensure systemd-timesyncd is installed
+  apt:
+    name: systemd-timesyncd
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Enable NTP via systemd-timesyncd
+  command: timedatectl set-ntp true
+  become: yes
+
+- name: Show time status (for visibility)
+  command: timedatectl status
+  register: timedatectl_out
+  changed_when: false
+  become: yes
+
+- name: Display time status
+  debug:
+    var: timedatectl_out.stdout

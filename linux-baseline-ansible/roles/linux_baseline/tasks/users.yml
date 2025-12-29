@@ -1,0 +1,52 @@
+---
+- name: Install sudo package
+  package:
+    name: sudo
+    state: present
+  become: yes
+
+- name: Create baseline users
+  user:
+    name: "{{ item.name }}"
+    groups: "{{ item.groups | join(',') }}"
+    shell: "{{ item.shell | default('/bin/bash') }}"
+    create_home: yes
+    state: present
+    password: "{{ 'tempadmin' | password_hash('sha512') }}" # temp passwd
+  loop: "{{ baseline_users }}"
+  become: yes
+
+- name: Configure sudoers for baseline users (NOPASSWD)
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ item.name }} ALL=(ALL) NOPASSWD:ALL"
+    validate: 'visudo -cf %s'
+  loop: "{{ baseline_users }}"
+  become: yes
+
+- name: Ensure .ssh directory exists for baseline users
+  file:
+    path: "/home/{{ item.name }}/.ssh"
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '0700'
+  loop: "{{ baseline_users }}"
+  become: yes
+
+- name: Install authorized_keys for baseline users (multiple keys)
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ item.1 }}"
+    state: present
+  with_subelements:
+    - "{{ baseline_users }}"
+    - ssh_keys
+    - skip_missing: True
+  become: yes
+
+- name: Lock root account
+  user:
+    name: root
+    password_lock: yes
+  become: yes
