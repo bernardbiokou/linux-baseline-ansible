@@ -59,12 +59,14 @@ cd linux-baseline-ansible
 ansible-playbook -i inventory playbook.yml
 
 ## Structure
+```bash
 inventory.ini        # Example inventory
 site.yml             # Main playbook
 roles/
 └── linux_baseline/  # Linux baseline role (security, users, firewall, SSH)
 
-For production deployment recommendations and validation steps, see the Production Pack.
+For p
+```roduction deployment recommendations and validation steps, see the Production Pack.
 
 ## FAQ 
 Is this production-ready out of the box?
