@@ -1,5 +1,5 @@
 # Linux Baseline - Ansible
-Automate and secure your **Debian / Ubuntu servers** with a clean, reusable Linux baseline — even if you **don’t have a DevOps team**.
+Automate and secure your **Debian / Ubuntu servers** with a clean, reusable Linux baseline - even if you **don’t have a DevOps team**.
 
 This repository provides the **technical implementation** of a Linux baseline using Ansible.  
 For a **production-ready, step-by-step deployment guide**, real-world use cases, and operational checklists, see the **Production Pack** below.
