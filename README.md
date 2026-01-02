@@ -64,9 +64,8 @@ inventory.ini        # Example inventory
 site.yml             # Main playbook
 roles/
 └── linux_baseline/  # Linux baseline role (security, users, firewall, SSH)
-
-For p
-```roduction deployment recommendations and validation steps, see the Production Pack.
+```
+For production deployment recommendations and validation steps, see the Production Pack.
 
 ## FAQ 
 Is this production-ready out of the box?
