@@ -1,56 +1,82 @@
 # Linux Baseline - Ansible
-Production Ansible role implementing a secure Linux server baseline for Debian/Ubuntu LTS.
+Automate and secure your **Debian / Ubuntu servers** with a clean, reusable Linux baseline — even if you **don’t have a DevOps team**.
 
-## Features
-Secure users & sudo access (baseline admin accounts with passwordless sudo if desired).
-Hardened SSH (key‑based authentication only, no root login, no password auth).
-UFW firewall with restrictive defaults and port 22 allowed for SSH access.
-The full kit is designed to be readable and easy to extend, with each concern split into its own task file so you always know what is happening on your servers.
+This repository provides the **technical implementation** of a Linux baseline using Ansible.  
+For a **production-ready, step-by-step deployment guide**, real-world use cases, and operational checklists, see the **Production Pack** below.
 
-## Requirements
-Control machine with Ansible installed (for example, your laptop or an admin VM).
-Target hosts running a supported Debian/Ubuntu LTS release, reachable over SSH.
-SSH user with sudo privileges on each target host.
+## Why this project exists?
 
-## Quick Test
-Dry‑run the baseline against the hosts defined in inventory.ini:
-ansible-playbook -i inventory.ini site.yml --check
-Apply the changes for real:
-ansible-playbook -i inventory.ini site.yml
+In many small teams and SMEs:
+- Servers are configured manually
+- Security settings drift over time
+- Access management becomes risky
+- One person holds all the infra knowledge
 
-## Structure
-├── linux-baseline-ansible
-│   ├── inventory.ini
-│   ├── roles
-│   │   └── linux_baseline
-│   │       ├── defaults
-│   │       │   └── main.yml
-│   │       ├── handlers
-│   │       │   └── main.yml
-│   │       ├── tasks
-│   │       │   ├── basics.yml
-│   │       │   ├── logs.yml
-│   │       │   ├── main.yml
-│   │       │   ├── post_check.yml
-│   │       │   ├── ssh.yml
-│   │       │   ├── timesync.yml
-│   │       │   ├── ufw.yml
-│   │       │   ├── unattended_upgrades.yml
-│   │       │   └── users.yml
-│   │       └── templates
-│   │           └── sshd_config.j2
-│   └── site.yml
-└── README.md
+This project helps you **standardize and automate** a Linux baseline so your infrastructure stays **boring, predictable, and secure**.
 
-If you want a step-by-step, production-ready implementation, including:
+## What you get here (Free)
 
-- full walkthrough
-- safety checklists
-- real-world usage guidance
+This repository includes:
 
-A complete Pack is available here:
+- ✔️ Ansible role for a Linux baseline
+- ✔️ SSH hardening
+- ✔️ Firewall configuration (UFW)
+- ✔️ User and sudo management
+- ✔️ Example inventory and playbook
 
+This is a **solid technical foundation** you can test, study, or extend.
+
+> ⚠️ This repository focuses on *implementation*, not full production operations.
+
+## Production Pack (Paid)
+
+If you want to deploy this **in production without guessing**, the Production Pack is designed for you.
+
+It includes:
+
+- ✅ Step-by-step deployment guide (from empty server to baseline)
+- ✅ Real production use cases    
+- ✅ Security & production checklists
+- ✅ Rollback and validation strategies
+- ✅ Operational tips (maintenance, reviews, updates)
+- ✅ Troubleshooting & common pitfalls
+
+👉 Get the Production Pack here:  
 https://aloba.gumroad.com/l/linux-baseline-ansible-kit
 
-## Final note
-This repository is meant to be a reference implementation. Adapt it to your organization’s security policies and operational requirements.
+**You keep the code. You pay for clarity, safety, and time saved.**
+
+## Typical use cases
+
+- Solo sysadmin managing several servers
+- IT managers without a dedicated DevOps team
+- SMEs looking for a repeatable Linux baseline
+- Consultants who need a clean starting point
+
+## Quick Test
+git clone https://github.com/bernardbiokou/linux-baseline-ansible.git
+cd linux-baseline-ansible
+ansible-playbook -i inventory playbook.yml
+
+## Structure
+inventory.ini        # Example inventory
+site.yml             # Main playbook
+roles/
+└── linux_baseline/  # Linux baseline role (security, users, firewall, SSH)
+
+For production deployment recommendations and validation steps, see the Production Pack.
+
+## FAQ 
+Is this production-ready out of the box?
+The code is solid, but production requires decisions, validation, and operational discipline.
+That’s exactly what the Production Pack provides.
+
+Why is the detailed documentation not included here?
+This repository is meant to stay simple and accessible.
+Advanced production scenarios, checklists, and runbooks are packaged separately.
+
+Can I adapt this to my infrastructure?
+Yes. The structure is modular and designed to be extended.
+
+## License
+MIT License - commercial use is allowed.
